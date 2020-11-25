@@ -12,7 +12,7 @@ from character import *
 
 
 # TODO: Créer la classe Spell qui a les même propriétés que Weapon, mais avec un coût en MP pour l'utiliser
-class Spell:
+class Spell(Weapon):
 	"""
 	Un sort dans le jeu.
 
@@ -23,10 +23,13 @@ class Spell:
 	"""
 
 	# TODO: __init__
-	pass
+	def __init__(self, name, power, mp_cost, min_level):
+		super().__init__(name, power, min_level)
+		self.mp_cost = mp_cost
+
 
 # TODO: Déclarer la classe Magician qui étend la classe Character
-class Magician:
+class Magician(Character):
 	"""
 	Un utilisateur de magie dans le jeu. Un magicien peut utiliser des sorts, mais peut aussi utiliser des armes physiques. Sa capacité à utiliser des sorts dépend 
 
@@ -43,8 +46,14 @@ class Magician:
 
 	def __init__(self, name, max_hp, max_mp, attack, magic_attack, defense, level):
 		# TODO: Initialiser les attributs de Character
-		# TODO: Initialiser le `magic_attack` avec le paramètre, le `max_mp` et `mp` de la même façon que `max_hp` et `hp`, `spell` à None et `using_magic` à False.
-		pass
+		super().__init__(name, max_hp, attack, defense, level)
+		# TODO: Initialiser le `magic_attack` avec le paramètre, le `max_mp` et `mp` de la même façon que
+		#  `max_hp` et `hp`, `spell` à None et `using_magic` à False.
+		self.max_mp = max_mp
+		self.mp = max_mp
+		self.magic_attack = magic_attack
+		self.spell = None
+		self.using_magic = None
 
 	@property
 	def mp(self):
@@ -57,15 +66,39 @@ class Magician:
 	# TODO: Écrire les getter/setter pour la propriété `spell`.
 	#       On peut affecter None.
 	#       Si le niveau minimal d'un sort est supérieur au niveau du personnage, on lève ValueError.
+	@property
+	def spell(self):
+		return self.spell
+
+	@spell.setter
+	def spell(self, used_spell):
+		if used_spell is None:
+			used_spell = Weapon.make_unarmed()
+		if used_spell.min_level > self.level:
+			raise ValueError(Spell)
+		self.spell = used_spell
 
 	# TODO: Surcharger la méthode `compute_damage` 
 	def compute_damage(self, other):
 		# Si le magicien va utiliser sa magie (`will_use_spell()`):
 			# Soustraire à son MP le coût du sort
 			# Retourner le résultat du calcul de dégâts magiques
+		if self.will_use_spell():
+			self.mp -= other.mp_cost
+
+			return Character.compute_damage_output(
+			self.level + self.magic_attack,
+			self.spell.power,
+			1,
+			1,
+			1 / 8,
+			(0.85, 1.00)
+		)
+
 		# Sinon
 			# Retourner le résultat du calcul de dégâts physiques
-		pass
+		else:
+			return self._compute_physical_damage()
 
 	def will_use_spell(self):
 		return self.using_magic and self.spell is not None and self.mp >= self.spell.mp_cost
@@ -82,5 +115,12 @@ class Magician:
 
 	def _compute_physical_damage(self, other):
 		# TODO: Calculer le dommage physique exactement de la même façon que dans `Character`
-		pass
+		return Character.compute_damage_output(
+			self.level,
+			self.weapon.power,
+			self.attack,
+			other.defense,
+			1 / 16,
+			(0.85, 1.00)
+		)
 

@@ -16,7 +16,12 @@ def deal_damage(attacker, defender):
 	# TODO: Obtenir l'arme utilisée.
 	#       Si l'attaquant est un magicien et que `Magician.will_use_spell()` donne vrai, il utilise sa magie.
 	#       Sinon il utilise son arme physique.
-	weapon_used = None
+	if type(attacker) == Magician and attacker.will_use_spell:
+		weapon_used = attacker.spell
+	else:
+		weapon_used = attacker.weapon
+
+
 	damage, crit = attacker.compute_damage(defender)
 	defender.hp -= damage
 	print(f"  {attacker.name} used {weapon_used.name}")
