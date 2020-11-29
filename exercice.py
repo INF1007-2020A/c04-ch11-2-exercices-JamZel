@@ -10,14 +10,14 @@ from game import *
 
 
 def simulate_battle():
-	c1 = Character("Äpik", 500, 150, 70, 70)
-	c2 = Character("Gämmör", 550, 100, 120, 60)
-	c3 = Magician("Damn! That magic dude", 450, 100, 50, 150, 50, 65)
+	c1 = Character("Hermione", 500, 150, 70, 70)
+	c2 = Character("Ron", 550, 100, 120, 60)
+	c3 = Magician("Voldemort", 800, 100, 50, 150, 50, 65)
 
-	c1.weapon = Weapon("BFG", 100, 69)
-	c2.weapon = Weapon("Deku Stick", 120, 1)
-	c3.spell = Spell("Big Chungus Power", 100, 35, 50)
-	c3.weapon = Weapon("Slingshot", 80, 20)
+	c1.weapon = Weapon("Axe", 100, 69)
+	c2.weapon = Weapon("Nivea", 120, 1)
+	c3.spell = Spell("AVADA KEDAVRA", 100, 35, 50)
+	c3.weapon = Weapon("Dagger", 80, 20)
 	c3.using_magic = True
 
 	turns = run_battle(c3, c1)

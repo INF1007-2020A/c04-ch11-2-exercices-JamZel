@@ -28,6 +28,7 @@ def deal_damage(attacker, defender):
 	if crit:
 		print("    Critical hit!")
 	print(f"    {defender.name} took {damage} dmg")
+	print(f"{defender.name} has got {defender.hp} hp left")
 
 def run_battle(c1, c2):
 	attacker = c1
